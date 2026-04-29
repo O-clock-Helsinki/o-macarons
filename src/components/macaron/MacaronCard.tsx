@@ -21,6 +21,7 @@ export default function MacaronCard({ macaron, onClick }: MacaronCardProps) {
         style={{ backgroundColor: macaron.colour }}
       />
       <p>{macaron.isDelicious ? "délicious" : "well... not so good"}</p>
+      {macaron.sweetness && <p>Sweetness : {macaron.sweetness}</p>}
     </button>
   )
 }

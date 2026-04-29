@@ -4,13 +4,15 @@ import "./app.scss"
 import data from "./data/macarons"
 import MacaronBox from "./components/macaronBox/MacaronBox"
 import { useState } from "react"
+import AddMacaron from "./components/addMacaron/AddMacaron"
 
 // COMPOSANT : un composant est une fonction qui return du JSX
 // on met une majuscule au debut du nom de la fonction composant
 function App() {
   // ici on peut definir des variables (bidons: qui ne sont pas réactives)
   // on a un tableau de string et on veut fabriquer un tableau de div pour notre JSX on va utiliser MAP
-  const macaronList: IMacaron[] = data
+  // Une fois qu'on utilise un useState : on ne modifie la valeur QU'AVEC le setter associé
+  const [macaronList, setMacaronList] = useState<IMacaron[]>(data)
 
   //Je souhaite pouvoir selectionner un macaron et qu'il s'affiche dans le footer
   //J'ai BESOIN de déclarer le state dans app CAR j'ai besoin de
@@ -19,6 +21,24 @@ function App() {
   const [selectedMacaron, setSelectedMacaron] = useState<undefined | IMacaron>(
     data[0] || undefined,
   )
+
+  //Je crée une fonction pour ajouter un macaron à ma liste
+  // Omit est un utility type de Typescript permettant d'oublier des clef pour un objet
+  // Le partial vous permet de récupérer un objet incomplet sans definir les clefs manquantes
+  // ex : Partial<IMacaron>
+  function updateMacaron(macaron: Omit<IMacaron, "id" | "isDelicious">) {
+    const newMacaron = {
+      ...macaron,
+      id: macaronList.length + 1,
+      isDelicious: true,
+    }
+    //je crée un nouveau tableau avec le spread operator
+    const macaronListToUpdate = [...macaronList, newMacaron]
+    //si on essaye de modifier le state sans passer par le setter
+    //Shallow comparaison -> pas de modification
+    //macaronList.push(newMacaron)
+    setMacaronList(macaronListToUpdate)
+  }
 
   return (
     <div className="app">
@@ -49,6 +69,7 @@ function App() {
             <h2>bienvenue dans ma boite à macarons vide</h2>
           </article>
         </MacaronBox>
+        <AddMacaron updateMacaron={updateMacaron} />
       </main>
       <Footer macaron={selectedMacaron} />
     </div>
