@@ -18,12 +18,12 @@ export default function AddMacaron({ updateMacaron }: AddMAcaronProps) {
 
     //Je récupère les valeurs remplies du form
     const flavour = formData.get("flavour") as string
-    const colour = formData.get("colour") as string
+    const color = formData.get("colour") as string
     //Si les valeurs sont correctes
-    if (flavour.trim() && colour.trim() && sweetness) {
+    if (flavour.trim() && color.trim() && sweetness) {
       return updateMacaron({
         flavour: flavour,
-        colour: colour,
+        color: color,
         sweetness: sweetness,
       })
     }

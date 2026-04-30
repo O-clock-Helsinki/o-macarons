@@ -1,7 +1,8 @@
 interface IMacaron {
   id: number
   flavour: string
-  colour: string
+  color: string
   isDelicious?: boolean
   sweetness?: number
+  category?: string
 }

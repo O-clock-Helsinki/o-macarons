@@ -13,12 +13,12 @@ export default function MacaronCard({ macaron, onClick }: MacaronCardProps) {
       <div
         className="macaron__coque"
         // changement de la couleur avec du CSS-in-JS
-        style={{ backgroundColor: macaron.colour }}
+        style={{ backgroundColor: macaron.color }}
       />
       <div className="macaron__filling">macaron {macaron.flavour}</div>
       <div
         className="macaron__coque reversed"
-        style={{ backgroundColor: macaron.colour }}
+        style={{ backgroundColor: macaron.color }}
       />
       <p>{macaron.isDelicious ? "délicious" : "well... not so good"}</p>
       {macaron.sweetness && <p>Sweetness : {macaron.sweetness}</p>}
