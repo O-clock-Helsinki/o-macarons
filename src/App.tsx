@@ -1,10 +1,13 @@
-import MacaronCard from "./components/macaron/MacaronCard"
 import Footer from "./components/footer/Footer"
 import "./app.scss"
-import MacaronBox from "./components/macaronBox/MacaronBox"
 import { useEffect, useState } from "react"
-import AddMacaron from "./components/addMacaron/AddMacaron"
 import Loader from "./components/loader/Loader"
+import { NavLink, Route, Routes } from "react-router"
+import Contact from "./pages/contact/Contact"
+import NotFound from "./pages/notFound/NotFound"
+import Home from "./pages/home/Home"
+import AddMacaronPage from "./pages/addMacaron/AddMacaronPage"
+import MacaronDetail from "./pages/macaronDetail/MacaronDetail"
 
 // COMPOSANT : un composant est une fonction qui return du JSX
 // on met une majuscule au debut du nom de la fonction composant
@@ -70,44 +73,57 @@ function App() {
     fetchData()
   }, [])
 
+  console.log(macaronList)
+
   return (
     <div className="app">
       <header className="header">
-        <h1 className="header-title">O'Macarons</h1>
+        <h1 id="top-page" className="header-title">
+          O'Macarons
+        </h1>
+        <nav>
+          <ul>
+            <li>
+              {/* equivalent <a href=""></a> */}
+              {/* les Link ne sont utilisés QUE POUR le MAILLAGE INTERNE */}
+              <NavLink to="/">Accueil</NavLink>
+            </li>
+            <li>
+              <NavLink to="/contact">contact</NavLink>
+            </li>
+            <li>
+              <NavLink to="/add-macaron">Ajouter un nouveau macaron</NavLink>
+            </li>
+          </ul>
+        </nav>
       </header>
       {isLoading ? (
         <Loader />
       ) : (
         <>
           <main className="main">
-            {errorMessage ? (
-              <p>{errorMessage}</p>
-            ) : (
-              <MacaronBox>
-                {macaronList.length > 0 ? (
-                  // avec map on fabrique un tableau d'element div JSX
-                  macaronList.map((macaron: IMacaron) => {
-                    // on doit return la ligne du tableau généré par map: un element JSX div
-                    // on est obligé d'ajouter une prop "key" aux elements quand ils sont dan sun tableau pour que React puisse les identifier (attention on ne met pas l'index du tableau en key)
-                    return (
-                      <MacaronCard
-                        key={macaron.id}
-                        macaron={macaron}
-                        onClick={() => setSelectedMacaron(macaron)}
-                      />
-                    )
-                  })
-                ) : (
-                  <p>Pas de macarons dans cette boite ! </p>
-                )}
-              </MacaronBox>
-            )}
-            <MacaronBox>
-              <article>
-                <h2>bienvenue dans ma boite à macarons vide</h2>
-              </article>
-            </MacaronBox>
-            <AddMacaron updateMacaron={updateMacaron} />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Home
+                    macaronList={macaronList}
+                    setSelectedMacaron={setSelectedMacaron}
+                    errorMessage={errorMessage}
+                  />
+                }
+              />
+              <Route
+                path="/add-macaron"
+                element={<AddMacaronPage updateMacaron={updateMacaron} />}
+              />
+              <Route path="/contact" element={<Contact />} />
+              <Route
+                path="/macarons/:flavour"
+                element={<MacaronDetail macaronList={macaronList} />}
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </main>
           <Footer macaron={selectedMacaron} />
         </>

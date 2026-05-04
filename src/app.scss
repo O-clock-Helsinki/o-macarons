@@ -27,3 +27,13 @@
   border-radius: 50%;
   padding: 0.4rem;
 }
+
+a,
+a:visited {
+  color: rgb(26, 23, 23);
+  text-decoration: none;
+}
+
+a.active {
+  color: rgb(102, 102, 207);
+}

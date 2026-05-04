@@ -1,6 +1,7 @@
 // useState est une fonction speciale importée de React, c'est un hook c'est à dire qu'elle n'a le droit d'etre utilisée que dans des composants (fonction qui return du JSX) et elle ne doit etre executée que à la racine du composant (pas dans des boucles, des conditions, des sous fonctions)
 import { useState } from "react"
 import "./footer.scss"
+import { Link } from "react-router"
 
 interface FooterProps {
   macaron: IMacaron | undefined
@@ -62,6 +63,22 @@ export default function Footer({ macaron }: FooterProps) {
         >
           reset
         </button>
+
+        <nav>
+          <ul>
+            <li>
+              {/* equivalent <a href=""></a> */}
+              {/* les Link ne sont utilisés QUE POUR le MAILLAGE INTERNE */}
+              <Link to="/">Accueil</Link>
+            </li>
+            <li>
+              <Link to="/contact">contact</Link>
+            </li>
+            <li>
+              <Link to="/add-macaron">Ajouter un nouveau macaron</Link>
+            </li>
+          </ul>
+        </nav>
       </footer>
     </>
   )
